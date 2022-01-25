@@ -1,0 +1,12 @@
+input_image=imread('pic.jpg');
+imshow(input_image)
+gray_image=rgb2gray(input_image);
+figure
+imshow(gray_image)
+fid=fopen('pic.txt','w');
+for i=1:size(gray_image,1)
+fprintf(fid,'%d ',gray_image(i, :));
+fprintf(fid,'\n');
+end
+fclose(fid)
+    

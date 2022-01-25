@@ -1,0 +1,22 @@
+module main(
+	 output [9:0] pxl_row,
+	 output [9:0] pxl_col,
+	 input [7:0] data,
+	 output [7:0] out,
+	 output [9:0] out_pxl_row,
+	 output [9:0] out_pxl_col,
+	 output write_enable,
+	 input rst,
+	 input clk,
+	 input start,
+	 output done
+    );
+	 
+	 wire [1:0] row_in;
+	 wire [1:0] col_in;
+	 wire data_in;
+	 
+	 controller cntrllr(pxl_row,pxl_col,data_in,row_in,col_in,out_pxl_row,out_pxl_col,write_enable,rst,clk,start,done);
+	 convolution conv(data_in,data,row_in,col_in,out);
+
+endmodule

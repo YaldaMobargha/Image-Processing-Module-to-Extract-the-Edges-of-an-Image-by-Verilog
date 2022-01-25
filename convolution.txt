@@ -1,0 +1,57 @@
+module convolution(
+    input data_in,
+    input [7:0] data,
+    input [1:0] row_in,
+    input [1:0] col_in,
+    output reg [7:0] out
+    );
+	 
+	reg [7:0] matrixinput [2:0][2:0];
+	reg signed [10:0] kernel [2:0][2:0]; 
+	reg signed [10:0] sum;
+	
+	integer i;
+	integer j;
+	
+	initial begin
+		for(i=0; i<3; i=i+1)begin	  
+			for(j=0; j<3; j=j+1)begin
+				matrixinput[i][j]=0;
+			end 
+		end
+		kernel[0][0]=1;
+		kernel[0][1]=2;
+		kernel[0][2]=1;
+		kernel[1][0]=0;
+		kernel[1][1]=0;
+		kernel[1][2]=0;
+		kernel[2][0]=-1;
+		kernel[2][1]=-2;
+		kernel[2][2]=-1;
+		out=0; 
+	end
+	
+	always @(*)begin 
+		if(data_in)begin
+			matrixinput [row_in][col_in]<=data;
+		end
+	
+		if(data_in==0)begin
+			sum=0;
+			for(i=0; i<3; i=i+1)begin	  
+				for(j=0; j<3; j=j+1)begin
+					sum=sum+kernel[i][j]*matrixinput[i][j];
+				end 
+			end
+			
+			if(sum<0)begin
+				sum=0;
+			end
+			if(sum>255)begin
+				sum=255;
+			end
+			out=sum;
+		end
+	end
+endmodule
+
